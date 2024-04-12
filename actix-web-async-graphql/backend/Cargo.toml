@@ -9,4 +9,5 @@ edition = "2021"
 [dependencies]
 actix-web = "4.5.1"
 async-graphql = {version = "7.0.3",features = ["chrono"]}
-rbatis = {version = "4.5.21",default-features = false, features = ["mysql", "postgres"]}
+async-graphql-actix-web = "7.0.3"
+rbatis = {version = "4.5.21"}
