@@ -10,4 +10,6 @@ edition = "2021"
 actix-web = "4.5.1"
 async-graphql = {version = "7.0.3",features = ["chrono"]}
 async-graphql-actix-web = "7.0.3"
-rbatis = {version = "4.5.21"}
+dotenv = "0.15.0"
+sqlx = { version = "0.7.3", features = ["mysql","runtime-async-std"] }
+serde = { version = "1.0.197", features = ["derive"] }

@@ -7,6 +7,8 @@ use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql::http::{GraphQLPlaygroundConfig, playground_source};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 
+use crate::dbs::mysql::establish_connection;
+
 use crate::gql::queries::QueryRoot;
 
 // 定义Graphql的Schema
@@ -23,10 +25,11 @@ type ActixSchema = Schema<
 
 // 创建 GraphQL schema
 pub async fn build_schema() -> ActixSchema {
+    let pool= establish_connection().await;
     // 构建 `Schema`
     // The root object for the query and Mutatio, and use EmptySubscription.
     // Add global sql datasource  in the schema object.
-    Schema::build(QueryRoot::default(), EmptyMutation, EmptySubscription).finish()
+    Schema::build(QueryRoot::default(), EmptyMutation, EmptySubscription).data(pool).finish()
 }
 
 // 定义 GraphQL HTTP 服务处理函数
