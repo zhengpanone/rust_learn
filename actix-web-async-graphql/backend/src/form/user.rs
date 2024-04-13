@@ -7,6 +7,15 @@ pub struct UserForm {
     pub cred: Option<String>,
 }
 
+
+#[derive(Debug, InputObject)]
+pub struct UpdateUserForm {
+    pub id: u32,
+    pub username: Option<String>,
+    pub email: Option<String>,
+    pub cred: Option<String>,
+}
+
 #[Object]
 impl UserForm {
     pub async fn username(&self) -> &str {

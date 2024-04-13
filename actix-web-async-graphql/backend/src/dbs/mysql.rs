@@ -1,5 +1,5 @@
 use sqlx::{Pool, mysql::MySqlPoolOptions, MySql};
-use dotenv;
+
 use crate::util::constant::CFG;
 
 // 获取 MySql 数据池后，可以将其增加到：

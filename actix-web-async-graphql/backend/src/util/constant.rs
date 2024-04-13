@@ -28,3 +28,5 @@ lazy_static! {
         map
     };
 }
+
+pub type GlqResult<T> = std::result::Result<T, async_graphql::Error>;

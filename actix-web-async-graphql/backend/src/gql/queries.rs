@@ -1,7 +1,8 @@
-use async_graphql::{FieldResult, Object, Context, Error};
+use async_graphql::{Object, Context};
 use sqlx::{MySqlPool, Row};
 use crate::models::user::User;
 use crate::service::user as userService;
+use crate::util::constant::GlqResult;
 
 // 定义一个 GraphQL 的查询对象
 #[derive(Default)]
@@ -13,11 +14,11 @@ impl QueryRoot {
         a + b
     }
 
-    async fn hello(&self) -> FieldResult<String> {
+    async fn hello(&self) -> GlqResult<String> {
         Ok("Hello,GraphQL!".to_string())
     }
 
-    async fn get_user(&self, context: &Context<'_>, user_id: u32) -> FieldResult<String> {
+    async fn get_user(&self, context: &Context<'_>, user_id: u32) -> GlqResult<String> {
         let pool = context.data::<MySqlPool>()?;
         let row = sqlx::query("SELECT * FROM user WHERE id = ?")
             .bind(user_id).fetch_one(pool).await?;
@@ -25,14 +26,13 @@ impl QueryRoot {
         Ok(name)
     }
 
-    async fn get_all_users(&self, context: &Context<'_>, user_id: u32) -> Result<Vec<User>, Error> {
+    async fn get_all_users(&self, context: &Context<'_>, user_id: u32) -> GlqResult<Vec<User>> {
         let pool = context.data::<MySqlPool>()?;
         let result = userService::all_users(pool, user_id).await?;
-
         Ok(result)
     }
 
-    async fn fetch_user_by_id(&self, context: &Context<'_>, user_id: u32) -> FieldResult<User> {
+    async fn fetch_user_by_id(&self, context: &Context<'_>, user_id: u32) -> GlqResult<User> {
         let pool = context.data::<MySqlPool>()?;
         let result = userService::fetch_user_by_id(pool, user_id).await?;
         Ok(result)

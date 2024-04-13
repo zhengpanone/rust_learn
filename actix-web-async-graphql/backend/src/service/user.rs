@@ -1,6 +1,6 @@
 use async_graphql::{ErrorExtensions, Error};
 use sqlx::{MySqlPool, query, query_as, Result};
-use crate::form::user::UserForm;
+use crate::form::user::{UpdateUserForm, UserForm};
 use crate::models::user::User;
 
 pub async fn all_users(pool: &MySqlPool, id: u32) -> Result<Vec<User>, Error> {
@@ -40,12 +40,12 @@ pub async fn delete_user_by_id(pool: &MySqlPool, id: u32) -> Result<()> {
     Ok(())
 }
 
-pub async fn update_user(pool: &MySqlPool, user: User) -> Result<()> {
+pub async fn update_user(pool: &MySqlPool, user: UpdateUserForm) -> Result<()> {
     query!("update user set username = ?, email = ? where id = ?",user.username,user.email,user.id).execute(pool).await?;
     Ok(())
 }
 
 pub async fn insert_user(pool: &MySqlPool, user: UserForm) -> Result<()> {
-    let result = query!("insert into user (username, email, cred) values(?,?,?)",user.username,user.email,user.cred).execute(pool).await?;
+    let _ = query!("insert into user (username, email, cred) values(?,?,?)",user.username,user.email,user.cred).execute(pool).await?;
     Ok(())
 }
