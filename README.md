@@ -53,6 +53,10 @@ cargo new frontend-wasm --bin --vcs none
 ```shell
 cargo install cargo-edit
 cargo install cargo-watch
+
+# cargo watch 使用
+cargo watch -x "run"
+
 ```
 
 - cargo-edit，包含 `cargo add`、`cargo rm`，以及 `cargo upgrade`，可以让我们方便地管理 crate。
@@ -68,4 +72,7 @@ cargo add actix-web async-graphql rbatis
 ### 依赖项支持特性（features）
 
 
+https://mp.weixin.qq.com/s/VRVKaRYRLXT2cS0cFJQUpw
+
+https://mp.weixin.qq.com/s?__biz=MzIwNzkyMDE0NA==&mid=2247484501&idx=2&sn=0a678fb4a016c163d468d0a1dba32bac&chksm=970a492aa07dc03ca7d10b5d11d259e9887d987eed55b985baf1d4efa20026b697deb9e61ea1&scene=178&cur_album_id=1825691062082813955#rd
 

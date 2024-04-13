@@ -17,3 +17,5 @@ resolver = "2"
 split-debuginfo="unpacked"
 
 [dependencies]
+dotenv = "0.15.0"
+sqlx = "0.7.4"

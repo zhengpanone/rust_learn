@@ -2,6 +2,7 @@
 name = "backend"
 version = "0.1.0"
 edition = "2021"
+authors = ["zhengpanone@hotmail.com"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # 项目参考文档：https://mp.weixin.qq.com/s/qbj4HyxtnqcG6x_kBwqzKw
@@ -13,3 +14,4 @@ async-graphql-actix-web = "7.0.3"
 dotenv = "0.15.0"
 sqlx = { version = "0.7.3", features = ["mysql","runtime-async-std"] }
 serde = { version = "1.0.197", features = ["derive"] }
+lazy_static = "1.4.0"

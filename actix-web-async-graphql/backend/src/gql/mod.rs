@@ -3,11 +3,12 @@ pub mod queries;
 
 
 use actix_web::{HttpResponse, web, Result};
-use async_graphql::{EmptyMutation, EmptySubscription, Schema};
+use async_graphql::{ EmptySubscription, Schema};
 use async_graphql::http::{GraphQLPlaygroundConfig, playground_source};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 
 use crate::dbs::mysql::establish_connection;
+use crate::gql::mutations::MutationRoot;
 
 use crate::gql::queries::QueryRoot;
 
@@ -19,7 +20,7 @@ use crate::gql::queries::QueryRoot;
 // 或者，不做此类型定义，直接作为构建函数的返回类型。
 type ActixSchema = Schema<
     QueryRoot,
-    EmptyMutation,
+    MutationRoot,
     EmptySubscription
 >;
 
@@ -29,7 +30,7 @@ pub async fn build_schema() -> ActixSchema {
     // 构建 `Schema`
     // The root object for the query and Mutatio, and use EmptySubscription.
     // Add global sql datasource  in the schema object.
-    Schema::build(QueryRoot::default(), EmptyMutation, EmptySubscription).data(pool).finish()
+    Schema::build(QueryRoot::default(), MutationRoot::default(), EmptySubscription).data(pool).finish()
 }
 
 // 定义 GraphQL HTTP 服务处理函数
