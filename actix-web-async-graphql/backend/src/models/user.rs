@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row, Result};
 use sqlx::mysql::MySqlRow;
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
+/**
+ * SimpleObject 省去满篇的 getter、setter
+ */
+#[derive(Serialize, Deserialize, Debug, Clone, async_graphql::SimpleObject)]
+#[graphql(complex)]
 pub struct User {
     pub id: u32,
     pub username: String,
@@ -10,29 +13,18 @@ pub struct User {
     pub cred: Option<String>, // 使用 Option<String> 来处理可能的空值
 }
 
-// User 结构体中定义的字段类型为 String，但结构体实现中返回为 &str，
-// 这是因为 Rust 中 String 未有默认实现 copy trait。如果您希望结构体实现中返回 String，可以通过 clone() 方法实现：
-#[async_graphql::Object]
-impl User {
-    pub async fn id(&self) -> u32 {
-        self.id
-    }
-    pub async fn username(&self) -> &str {
-        self.username.as_str()
-    }
-    pub async fn email(&self) -> &str {
-        match &self.email {
-            Some(s) => s.as_str(), // 如果 email 字段存在，则返回其字符串引用
-            None => "", // 如果 email 字段为 None，则返回空字符串
-        }
-    }
 
-    pub async fn cred(&self) -> &str {
-        match &self.cred {
-            Some(s) => s.as_str(),
-            None => "",
-        }
-    }
+
+#[async_graphql::ComplexObject]
+impl User{
+  pub async fn from(&self)->String{
+      let mut from = String::new();
+      from.push_str(&self.username);
+      from.push_str("<");
+      from.push_str(&self.email.to_owned().unwrap());
+      from.push_str(">");
+      from
+  }
 }
 
 /**
