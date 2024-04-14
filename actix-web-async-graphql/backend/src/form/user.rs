@@ -1,9 +1,13 @@
-use async_graphql::{InputObject, Object};
+use async_graphql::{InputObject, SimpleObject};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, InputObject)]
-pub struct UserForm {
-    pub username: Option<String>,
+#[derive(Debug, InputObject, Serialize, Deserialize, Clone, SimpleObject)]
+pub struct NewUserForm {
+    #[graphql(skip)]
+    pub id: u32,
+    pub username: String,
     pub email: Option<String>,
+    #[graphql(skip)]
     pub cred: Option<String>,
 }
 
@@ -11,31 +15,8 @@ pub struct UserForm {
 #[derive(Debug, InputObject)]
 pub struct UpdateUserForm {
     pub id: u32,
-    pub username: Option<String>,
+    pub username: String,
     pub email: Option<String>,
     pub cred: Option<String>,
 }
 
-#[Object]
-impl UserForm {
-    pub async fn username(&self) -> &str {
-        match &self.username {
-            Some(s) => s.as_str(),
-            None => "",
-        }
-    }
-
-    pub async fn email(&self) -> &str {
-        match &self.email {
-            Some(s) => s.as_str(), // 如果 email 字段存在，则返回其字符串引用
-            None => "", // 如果 email 字段为 None，则返回空字符串
-        }
-    }
-
-    pub async fn cred(&self) -> &str {
-        match &self.cred {
-            Some(s) => s.as_str(), // 如果 email 字段存在，则返回其字符串引用
-            None => "", // 如果 email 字段为 None，则返回空字符串
-        }
-    }
-}

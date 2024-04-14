@@ -1,10 +1,12 @@
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row, Result};
 use sqlx::mysql::MySqlRow;
+use async_graphql::SimpleObject;
+
 /**
  * SimpleObject 省去满篇的 getter、setter
  */
-#[derive(Serialize, Deserialize, Debug, Clone, async_graphql::SimpleObject)]
+#[derive(Serialize, Deserialize, Debug, Clone, SimpleObject)]
 #[graphql(complex)]
 pub struct User {
     pub id: u32,
@@ -14,17 +16,16 @@ pub struct User {
 }
 
 
-
 #[async_graphql::ComplexObject]
-impl User{
-  pub async fn from(&self)->String{
-      let mut from = String::new();
-      from.push_str(&self.username);
-      from.push_str("<");
-      from.push_str(&self.email.to_owned().unwrap());
-      from.push_str(">");
-      from
-  }
+impl User {
+    pub async fn from(&self) -> String {
+        let mut from = String::new();
+        from.push_str(&self.username);
+        from.push_str("<");
+        from.push_str(&self.email.to_owned().unwrap());
+        from.push_str(">");
+        from
+    }
 }
 
 /**
